@@ -3,7 +3,7 @@ import { Product } from './product.entity';
 
 @Injectable()
 export class ProductsRepository {
-  private products = [
+  private products: Product[] = [
     {
       id: 1,
       name: 'Laptop Pro',
@@ -89,7 +89,42 @@ export class ProductsRepository {
     },
   ];
 
-  async getProducts(): Promise<Product[]> {
-    return await this.products;
+  async getProducts(page: number = 1, limit: number = 5): Promise<Product[]> {
+    const startIndex = (page - 1) * limit;
+    return await this.products.slice(startIndex, startIndex + limit);
+  }
+
+  async getProductById(id: string): Promise<Product> {
+    const product = await this.products.find(
+      (product) => product.id === Number(id),
+    );
+    return product;
+  }
+
+  async createProduct(productData: Product): Promise<number> {
+    let id = this.products.length + 1;
+    const newProduct = { id, ...productData };
+    this.products.push(newProduct);
+    return newProduct.id;
+  }
+
+  async updateProduct(id: string, dataToUpdate: Product): Promise<number> {
+    const indexToUpdate = this.products.findIndex(
+      (product) => product.id === Number(id),
+    );
+    this.products[indexToUpdate] = {
+      ...this.products[indexToUpdate],
+      ...dataToUpdate,
+    };
+
+    return this.products[indexToUpdate].id;
+  }
+
+  async deleteProduct(id: string): Promise<number> {
+    const indexToDelete = this.products.findIndex(
+      (product) => product.id === Number(id),
+    );
+    this.products.splice(indexToDelete, 1);
+    return Number(id);
   }
 }
