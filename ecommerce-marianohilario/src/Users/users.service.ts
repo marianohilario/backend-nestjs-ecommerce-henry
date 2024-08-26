@@ -5,7 +5,10 @@ import { User } from './user.entity';
 @Injectable()
 export class UsersService {
   constructor(private usersRepository: UsersRepository) {}
-  async getUsers(page: number, limit: number): Promise<Omit<User, 'password'>[]> {
+  async getUsers(
+    page: number,
+    limit: number,
+  ): Promise<Omit<User, 'password'>[]> {
     return (await this.usersRepository.getUsers(page, limit)).map(
       ({ password, ...rest }) => rest,
     );
@@ -15,15 +18,16 @@ export class UsersService {
     const { password, ...rest } = user;
     return rest;
   }
-  async createUser(userData: User): Promise<number> {
+
+  async createUser(userData: User): Promise<string> {
     return await this.usersRepository.createUser(userData);
   }
 
-  async updateUser(id: string, dataToUpdate: User): Promise<number> {
+  async updateUser(id: string, dataToUpdate: User): Promise<string> {
     return await this.usersRepository.updateUser(id, dataToUpdate);
   }
 
-  async deleteUser(id: string): Promise<number> {
+  async deleteUser(id: string): Promise<string> {
     return await this.usersRepository.deleteUser(id);
   }
 }

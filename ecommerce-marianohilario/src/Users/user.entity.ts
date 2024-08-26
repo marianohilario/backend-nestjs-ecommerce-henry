@@ -1,12 +1,36 @@
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+
+import { Order } from 'src/orders/entities/order.entity';
+
+@Entity({ name: 'users' })
 export class User {
-  constructor(
-    public id: number,
-    public email: string,
-    public name: string,
-    public password: string,
-    public address: string,
-    public phone: string,
-    public country?: string | undefined,
-    public city?: string | undefined,
-  ) {}
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column({ type: 'varchar', length: 50, unique: true, nullable: false })
+  email: string;
+
+  @Column({ type: 'varchar', length: 50, nullable: false })
+  name: string;
+
+  @Column({ type: 'varchar', length: 20, nullable: false })
+  password: string;
+
+  @Column({ type: 'text', nullable: true })
+  address: string;
+
+  @Column({ type: 'int', nullable: true })
+  phone: number;
+
+  @Column({ type: 'varchar', length: 50, nullable: true })
+  country?: string | undefined;
+
+  @Column({ type: 'varchar', length: 50, nullable: true })
+  city?: string | undefined;
+
+  @Column({ type: 'boolean', default: false })
+  isAdmin: boolean;
+
+  @OneToMany(() => Order, (order) => order.user)
+  orders: Order[];
 }

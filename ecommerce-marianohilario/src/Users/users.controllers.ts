@@ -13,8 +13,8 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './user.entity';
-import { validateUserData } from 'src/Utils/validate';
-import { AuthGuard } from 'src/Auth/auth.guard';
+import { validateUserData } from 'src/utils/validate';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -23,20 +23,23 @@ export class UsersController {
   @Get()
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard)
-  getProducts(@Query('page') page: string, @Query('limit') limit: string) {
+  getProducts(
+    @Query('page') page: string,
+    @Query('limit') limit: string,
+  ): Promise<Omit<User, 'password'>[]> {
     return this.userService.getUsers(Number(page), Number(limit));
   }
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard)
-  getProductById(@Param('id') id: string) {
+  getProductById(@Param('id') id: string): Promise<Omit<User, 'password'>> {
     return this.userService.getUserById(id);
   }
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  createProduct(@Body() userData: User) {
+  createProduct(@Body() userData: User): Promise<string> | string {
     if (validateUserData(userData, true)) {
       return this.userService.createUser(userData);
     } else {
@@ -47,7 +50,10 @@ export class UsersController {
   @Put(':id')
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard)
-  updateProduct(@Param('id') id: string, @Body() dataToUpdate: User) {
+  updateProduct(
+    @Param('id') id: string,
+    @Body() dataToUpdate: User,
+  ): Promise<string> | string {
     if (validateUserData(dataToUpdate)) {
       return this.userService.updateUser(id, dataToUpdate);
     } else {
@@ -58,7 +64,7 @@ export class UsersController {
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard)
-  deleteProduct(@Param('id') id: string) {
+  deleteProduct(@Param('id') id: string): Promise<string> {
     return this.userService.deleteUser(id);
   }
 }

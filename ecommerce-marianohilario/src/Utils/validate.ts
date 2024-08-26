@@ -34,7 +34,7 @@ export function validateProductData(
     description: 'string',
     imgUrl: 'string',
     price: 'number',
-    stock: 'boolean',
+    stock: 'number',
   };
 
   for (const [field, type] of Object.entries(fieldTypes)) {
@@ -51,4 +51,3 @@ export function validateProductData(
 
   return true;
 }
-
