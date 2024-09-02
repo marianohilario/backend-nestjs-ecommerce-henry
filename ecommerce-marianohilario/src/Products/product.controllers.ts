@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  ParseUUIDPipe,
   Post,
   Put,
   Query,
@@ -22,8 +23,11 @@ export class ProductsController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  getProducts(@Query('page') page: string, @Query('limit') limit: string): Promise<Product[]> {
-    if(page && limit) {
+  getProducts(
+    @Query('page') page: string,
+    @Query('limit') limit: string,
+  ): Promise<Product[]> {
+    if (page && limit) {
       return this.productService.getProducts(Number(page), Number(limit));
     }
     return this.productService.getProducts(1, 5);
@@ -31,12 +35,12 @@ export class ProductsController {
 
   @Get('seeder')
   addProducts(): Promise<string> {
-    return this.productService.addProducts()
+    return this.productService.addProducts();
   }
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  getProductById(@Param('id') id: string): Promise<Product> {
+  getProductById(@Param('id', ParseUUIDPipe) id: string): Promise<Product> {
     return this.productService.getProductById(id);
   }
 
@@ -54,7 +58,10 @@ export class ProductsController {
   @Put(':id')
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard)
-  updateProduct(@Param('id') id: string, @Body() dataToUpdate: Product): Promise<Product> | string {
+  updateProduct(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dataToUpdate: Product,
+  ): Promise<Product> | string {
     if (validateProductData(dataToUpdate, false)) {
       return this.productService.updateProduct(id, dataToUpdate);
     } else {

@@ -19,7 +19,7 @@ export class UsersService {
     return rest;
   }
 
-  async createUser(userData: User): Promise<string> {
+  async createUser(userData: Partial<User>): Promise<string> {
     return await this.usersRepository.createUser(userData);
   }
 

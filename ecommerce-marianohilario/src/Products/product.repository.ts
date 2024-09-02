@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Product } from './product.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MoreThan, Repository } from 'typeorm';
@@ -39,7 +44,14 @@ export class ProductsRepository {
   async addProducts(): Promise<string> {
     const categories = await this.categoryRepository.find();
     if (!categories || categories.length === 0)
-      return 'No existen categorias cargadas. Por favor primero realizar una petición GET al endpoint /categories/seeder';
+      throw new HttpException(
+        {
+          error: 'No existen categorias cargadas.',
+          description:
+            'Primero realizar una petición GET al endpoint /categories/seeder',
+        },
+        HttpStatus.CONFLICT,
+      );
 
     if (data) {
       for (const product of data) {

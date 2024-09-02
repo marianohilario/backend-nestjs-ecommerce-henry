@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  ParseUUIDPipe,
   Post,
   Put,
   Query,
@@ -15,6 +16,7 @@ import { UsersService } from './users.service';
 import { User } from './user.entity';
 import { validateUserData } from 'src/utils/validate';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { CreateUsersDto } from './dtos/create-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -33,25 +35,27 @@ export class UsersController {
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard)
-  getProductById(@Param('id') id: string): Promise<Omit<User, 'password'>> {
+  getProductById(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<Omit<User, 'password'>> {
     return this.userService.getUserById(id);
   }
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  createProduct(@Body() userData: User): Promise<string> | string {
-    if (validateUserData(userData, true)) {
-      return this.userService.createUser(userData);
-    } else {
-      return 'Usuario no valido';
-    }
+  createProduct(@Body() userData: CreateUsersDto): Promise<string> | string {
+    // if (validateUserData(userData, true)) { //! Comentado para validar los pipes, como se modificaron los tipos debo modificar la función validateUserData
+    return this.userService.createUser(userData);
+    // } else {
+    // return 'Usuario no valido';
+    // }
   }
 
   @Put(':id')
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard)
   updateProduct(
-    @Param('id') id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() dataToUpdate: User,
   ): Promise<string> | string {
     if (validateUserData(dataToUpdate)) {
@@ -64,7 +68,7 @@ export class UsersController {
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard)
-  deleteProduct(@Param('id') id: string): Promise<string> {
+  deleteProduct(@Param('id', ParseUUIDPipe) id: string): Promise<string> {
     return this.userService.deleteUser(id);
   }
 }
