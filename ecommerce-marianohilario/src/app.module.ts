@@ -11,6 +11,7 @@ import { AuthModule } from './auth/auth.module';
 import { OrdersModule } from './orders/orders.module';
 import { CategoriesModule } from './categories/categories.module';
 import { OrdersDetailsModule } from './orders-details/orders-details.module';
+import { FileUploadModule } from './file-upload/file-upload.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { OrdersDetailsModule } from './orders-details/orders-details.module';
     OrdersModule,
     CategoriesModule,
     OrdersDetailsModule,
+    FileUploadModule,
   ],
   controllers: [AppController],
   providers: [AppService],
