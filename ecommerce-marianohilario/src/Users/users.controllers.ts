@@ -41,16 +41,6 @@ export class UsersController {
     return this.userService.getUserById(id);
   }
 
-  @Post()
-  @HttpCode(HttpStatus.CREATED)
-  createProduct(@Body() userData: CreateUsersDto): Promise<string> | string {
-    // if (validateUserData(userData, true)) { //! Comentado para validar los pipes, como se modificaron los tipos debo modificar la función validateUserData
-    return this.userService.createUser(userData);
-    // } else {
-    // return 'Usuario no valido';
-    // }
-  }
-
   @Put(':id')
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard)

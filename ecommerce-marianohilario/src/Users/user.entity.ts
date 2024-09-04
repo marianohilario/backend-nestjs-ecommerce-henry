@@ -13,7 +13,7 @@ export class User {
   @Column({ type: 'varchar', length: 50, nullable: false })
   name: string;
 
-  @Column({ type: 'varchar', length: 20, nullable: false })
+  @Column({ type: 'varchar', nullable: false })
   password: string;
 
   @Column({ type: 'text', nullable: true })

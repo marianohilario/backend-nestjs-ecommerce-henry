@@ -30,6 +30,9 @@ export class CreateUsersDto {
   password: string;
 
   @IsNotEmpty()
+  confirmPassword: string
+
+  @IsNotEmpty()
   @IsString()
   @Length(3, 80)
   address: string;

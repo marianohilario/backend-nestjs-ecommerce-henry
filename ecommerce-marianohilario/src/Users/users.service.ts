@@ -19,10 +19,6 @@ export class UsersService {
     return rest;
   }
 
-  async createUser(userData: Partial<User>): Promise<string> {
-    return await this.usersRepository.createUser(userData);
-  }
-
   async updateUser(id: string, dataToUpdate: User): Promise<string> {
     return await this.usersRepository.updateUser(id, dataToUpdate);
   }
