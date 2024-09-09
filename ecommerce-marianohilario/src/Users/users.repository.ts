@@ -19,16 +19,20 @@ export class UsersRepository {
       .getMany();
   }
 
-  async getUserById(id: string): Promise<User> {
-    return await this.userRepository.findOne({
+  async getUserById(id: string): Promise<Partial<User>> {
+    const user = await this.userRepository.findOne({
       where: { id },
       relations: { orders: true },
     });
+
+    const { password, isAdmin, ...rest } = user;
+
+    return rest;
   }
 
   async createUser(userData: CreateUsersDto): Promise<Partial<User>> {
     const newUser = await this.userRepository.save(userData);
-    const { password, confirmPassword, ...rest } = newUser;
+    const { password, confirmPassword, isAdmin, ...rest } = newUser;
     return rest;
   }
 

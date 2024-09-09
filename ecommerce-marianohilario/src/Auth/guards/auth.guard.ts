@@ -7,6 +7,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { Observable } from 'rxjs';
+import { Role } from '../enum/roles.enum';
 
 // Extiende la interfaz Request para incluir el userPayload
 interface RequestWithUserPayload extends Request {

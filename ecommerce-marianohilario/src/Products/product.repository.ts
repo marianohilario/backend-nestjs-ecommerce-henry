@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { Product } from './product.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import {  Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import * as data from '../utils/products.json';
 import { Category } from 'src/categories/entities/category.entity';
 
@@ -81,7 +81,10 @@ export class ProductsRepository {
     });
   }
 
-  async updateProduct(id: string, dataToUpdate: Product): Promise<Product> {
+  async updateProduct(
+    id: string,
+    dataToUpdate: Partial<Product>,
+  ): Promise<Product> {
     const productExist = await this.productRepository.findOne({
       where: { id },
     });

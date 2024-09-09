@@ -15,7 +15,11 @@ import {
 import { ProductsServices } from './product.service';
 import { Product } from './product.entity';
 import { validateProductData } from 'src/utils/validate';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { Roles } from 'src/decorators/roles.decorator';
+import { Role } from 'src/auth/enum/roles.enum';
+import { UpdateProductDto } from './dtos/update-product.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -57,10 +61,11 @@ export class ProductsController {
 
   @Put(':id')
   @HttpCode(HttpStatus.OK)
-  @UseGuards(AuthGuard)
+  @Roles(Role.Admin)
+  @UseGuards(AuthGuard, RolesGuard)
   updateProduct(
     @Param('id', ParseUUIDPipe) id: string,
-    @Body() dataToUpdate: Product,
+    @Body() dataToUpdate: UpdateProductDto,
   ): Promise<Product> | string {
     if (validateProductData(dataToUpdate, false)) {
       return this.productService.updateProduct(id, dataToUpdate);

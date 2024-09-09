@@ -15,8 +15,11 @@ import {
 import { UsersService } from './users.service';
 import { User } from './user.entity';
 import { validateUserData } from 'src/utils/validate';
-import { AuthGuard } from 'src/auth/auth.guard';
-import { CreateUsersDto } from './dtos/create-user.dto';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { request } from 'express';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { Roles } from 'src/decorators/roles.decorator';
+import { Role } from 'src/auth/enum/roles.enum';
 
 @Controller('users')
 export class UsersController {
@@ -24,7 +27,8 @@ export class UsersController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  @UseGuards(AuthGuard)
+  @Roles(Role.Admin)
+  @UseGuards(AuthGuard, RolesGuard)
   getProducts(
     @Query('page') page: string,
     @Query('limit') limit: string,
@@ -37,7 +41,7 @@ export class UsersController {
   @UseGuards(AuthGuard)
   getProductById(
     @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<Omit<User, 'password'>> {
+  ): Promise<Partial<User>> {
     return this.userService.getUserById(id);
   }
 

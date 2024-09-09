@@ -13,7 +13,7 @@ export class UsersService {
       ({ password, ...rest }) => rest,
     );
   }
-  async getUserById(id: string): Promise<Omit<User, 'password'>> {
+  async getUserById(id: string): Promise<Partial<User>> {
     const user = await this.usersRepository.getUserById(id);
     const { password, ...rest } = user;
     return rest;
