@@ -19,7 +19,7 @@ export class UsersService {
     return rest;
   }
 
-  async updateUser(id: string, dataToUpdate: User): Promise<string> {
+  async updateUser(id: string, dataToUpdate: Partial<User>): Promise<string> {
     return await this.usersRepository.updateUser(id, dataToUpdate);
   }
 

@@ -15,7 +15,6 @@ export class CategoriesRepository {
   }
 
   async addCategories(): Promise<string> {
-    console.time('cat');
     if (data) {
       for (const element of data) {
         const categoryExist = await this.categoriesRepository.findOne({
@@ -26,11 +25,9 @@ export class CategoriesRepository {
           await this.categoriesRepository.save({ name: element.category });
         }
       }
-      console.timeEnd('cat');
       return 'Categorías cargadas';
     }
 
-    console.timeEnd('cat');
     return 'No existen categorías para cargar';
   }
 }

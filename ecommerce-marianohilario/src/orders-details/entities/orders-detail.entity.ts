@@ -7,8 +7,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { Order } from 'src/orders/entities/order.entity';
-import { Product } from 'src/Products/product.entity';
+import { Order } from '../../orders/entities/order.entity';
+import { Product } from '../../Products/product.entity';
 
 @Entity({ name: 'orders_detail' })
 export class OrdersDetail {

@@ -14,12 +14,11 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './user.entity';
-import { validateUserData } from 'src/utils/validate';
-import { AuthGuard } from 'src/auth/guards/auth.guard';
-import { request } from 'express';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
-import { Roles } from 'src/decorators/roles.decorator';
-import { Role } from 'src/auth/enum/roles.enum';
+import { validateUserData } from '../utils/validate';
+import { AuthGuard } from '../auth/guards/auth.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { Roles } from '../decorators/roles.decorator';
+import { Role } from '../auth/enum/roles.enum';
 
 @Controller('users')
 export class UsersController {
@@ -29,31 +28,31 @@ export class UsersController {
   @HttpCode(HttpStatus.OK)
   @Roles(Role.Admin)
   @UseGuards(AuthGuard, RolesGuard)
-  getProducts(
+  getUsers(
     @Query('page') page: string,
     @Query('limit') limit: string,
   ): Promise<Omit<User, 'password'>[]> {
-    return this.userService.getUsers(Number(page), Number(limit));
+    const pageNumber = page ? Number(page) : 1;
+    const limitNumber = limit ? Number(limit) : 5;
+    return this.userService.getUsers(pageNumber, limitNumber);
   }
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard)
-  getProductById(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<Partial<User>> {
+  getUserById(@Param('id', ParseUUIDPipe) id: string): Promise<Partial<User>> {
     return this.userService.getUserById(id);
   }
 
   @Put(':id')
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard)
-  updateProduct(
+  async updateUser(
     @Param('id', ParseUUIDPipe) id: string,
-    @Body() dataToUpdate: User,
-  ): Promise<string> | string {
+    @Body() dataToUpdate: Partial<User>,
+  ): Promise<string> {
     if (validateUserData(dataToUpdate)) {
-      return this.userService.updateUser(id, dataToUpdate);
+      return await this.userService.updateUser(id, dataToUpdate);
     } else {
       return 'Usuario no valido';
     }
@@ -62,7 +61,7 @@ export class UsersController {
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard)
-  deleteProduct(@Param('id', ParseUUIDPipe) id: string): Promise<string> {
+  deleteUser(@Param('id', ParseUUIDPipe) id: string): Promise<string> {
     return this.userService.deleteUser(id);
   }
 }

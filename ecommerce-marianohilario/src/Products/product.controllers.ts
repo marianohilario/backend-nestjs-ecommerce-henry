@@ -14,11 +14,11 @@ import {
 } from '@nestjs/common';
 import { ProductsServices } from './product.service';
 import { Product } from './product.entity';
-import { validateProductData } from 'src/utils/validate';
-import { AuthGuard } from 'src/auth/guards/auth.guard';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
-import { Roles } from 'src/decorators/roles.decorator';
-import { Role } from 'src/auth/enum/roles.enum';
+import { validateProductData } from '../utils/validate';
+import { AuthGuard } from '../auth/guards/auth.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { Roles } from '../decorators/roles.decorator';
+import { Role } from '../auth/enum/roles.enum';
 import { UpdateProductDto } from './dtos/update-product.dto';
 
 @Controller('products')

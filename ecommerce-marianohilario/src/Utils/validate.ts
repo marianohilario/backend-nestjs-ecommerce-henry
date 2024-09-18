@@ -4,13 +4,23 @@ export function validateUserData(user: any, isNew: boolean = false): boolean {
 
   if (isNew) {
     for (const field of requiredFields) {
-      if (typeof user[field] !== 'string') {
+      if (
+        (field === 'phone' && typeof user[field] !== 'number') ||
+        (field !== 'phone' && typeof user[field] !== 'string')
+      ) {
         return false;
       }
     }
   } else {
     for (const field of requiredFields) {
-      if (user[field] !== undefined && typeof user[field] !== 'string') {
+      if (
+        (field === 'phone' &&
+          user[field] !== undefined &&
+          typeof user[field] !== 'number') ||
+        (field !== 'phone' &&
+          user[field] !== undefined &&
+          typeof user[field] !== 'string')
+      ) {
         return false;
       }
     }

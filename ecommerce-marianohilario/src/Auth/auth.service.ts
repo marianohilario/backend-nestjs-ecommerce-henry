@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUsersDto } from 'src/users/dtos/create-user.dto';
-import { UsersRepository } from 'src/users/users.repository';
+import { UsersRepository } from '../users/users.repository';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { Role } from './enum/roles.enum';
@@ -16,7 +16,9 @@ export class AuthService {
 
     let isPasswordValid = false;
 
-    if (user) isPasswordValid = await bcrypt.compare(password, user.password);
+    if (user) {
+      isPasswordValid = await bcrypt.compare(password, user.password);
+    }
 
     if (!user || !isPasswordValid) {
       throw new BadRequestException('Email o password incorrecto.');

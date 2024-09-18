@@ -10,7 +10,7 @@ export class UsersRepository {
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
 
-  async getUsers(page: number = 1, limit: number = 5): Promise<User[]> {
+  async getUsers(page: number, limit: number): Promise<User[]> {
     const offset = (page - 1) * limit;
     return await this.userRepository
       .createQueryBuilder('user')
@@ -36,11 +36,12 @@ export class UsersRepository {
     return rest;
   }
 
-  async updateUser(id: string, dataToUpdate: User): Promise<string> {
-    const emailExists = await this.userRepository.findOne({
-      where: { email: dataToUpdate.email },
+  async updateUser(id: string, dataToUpdate: Partial<User>): Promise<string> {
+    const userExists = await this.userRepository.findOne({
+      where: { id },
     });
-    if (!emailExists || (emailExists && emailExists.id === id)) {
+
+    if (!userExists || (userExists && userExists.id === id)) {
       await this.userRepository.update(id, dataToUpdate);
       return id;
     }

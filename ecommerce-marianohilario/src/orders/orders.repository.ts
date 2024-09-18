@@ -3,9 +3,9 @@ import { Repository } from 'typeorm';
 import { NotFoundException } from '@nestjs/common';
 
 import { Order } from './entities/order.entity';
-import { Product } from 'src/Products/product.entity';
-import { User } from 'src/users/user.entity';
-import { OrdersDetail } from 'src/orders-details/entities/orders-detail.entity';
+import { Product } from '../Products/product.entity';
+import { User } from '../users/user.entity';
+import { OrdersDetail } from '../orders-details/entities/orders-detail.entity';
 
 export class OrdersRepository {
   constructor(
