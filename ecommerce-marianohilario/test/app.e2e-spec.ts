@@ -46,6 +46,36 @@ describe('AppController (e2e)', () => {
     expect(req.body).toBeInstanceOf(Object);
   });
 
+  it('/users/:id (GET) Returns an error with a NOT FOUND status code when user does not exist', async () => {
+    const req = await request(app.getHttpServer()).get(
+      '/users/701ded1c-951c-451b-8f6f-f2f05079c7a5',
+    );
+    expect(req.status).toBe(404);
+    expect(req.body.message).toBe('ID de usuario no encontrado');
+  });
+
+  it('/users/:id (GET) Returns an error with a BAD REQUEST status code when user id is not a UUID', async () => {
+    const req = await request(app.getHttpServer()).get('/users/not-a-UUID');
+    expect(req.status).toBe(400);
+    expect(req.body).toBeInstanceOf(Object);
+    expect(req.body.message).toBe('Validation failed (uuid is expected)');
+  });
+
+  it('/auth/signup (POST) Returns an created user id with a CREATED status code', async () => {
+    const req = await request(app.getHttpServer()).post('/auth/signup').send({
+      email: 'marianoTest@gmail.com',
+      password: 'Aasd123@',
+      confirmPassword: 'Aasd123@',
+      name: 'Mariano Test',
+      address: 'calle falsa 123',
+      phone: 1151339874,
+      country: 'Argentina',
+      city: 'Buenos Aires',
+    });
+    expect(req.status).toBe(201);
+    expect(req.body).toBeInstanceOf(Object);
+  });
+
   it('/users (PUT) Returns an updated user id with an OK status code', async () => {
     const req = await request(app.getHttpServer())
       .put('/users/701ded1c-951c-451b-8f6f-f2f05079c7a4')

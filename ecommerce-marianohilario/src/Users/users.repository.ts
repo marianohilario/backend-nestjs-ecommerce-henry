@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { User } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -25,6 +25,9 @@ export class UsersRepository {
       relations: { orders: true },
     });
 
+    if (!user){
+      throw new NotFoundException('ID de usuario no encontrado');
+    }
     const { password, isAdmin, ...rest } = user;
 
     return rest;
