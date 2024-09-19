@@ -19,13 +19,16 @@ import { AuthGuard } from '../auth/guards/auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../decorators/roles.decorator';
 import { Role } from '../auth/enum/roles.enum';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
   @Get()
   @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth()
   @Roles(Role.Admin)
   @UseGuards(AuthGuard, RolesGuard)
   getUsers(
@@ -39,6 +42,7 @@ export class UsersController {
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   getUserById(@Param('id', ParseUUIDPipe) id: string): Promise<Partial<User>> {
     return this.userService.getUserById(id);
@@ -46,6 +50,7 @@ export class UsersController {
 
   @Put(':id')
   @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   async updateUser(
     @Param('id', ParseUUIDPipe) id: string,
@@ -60,6 +65,7 @@ export class UsersController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   deleteUser(@Param('id', ParseUUIDPipe) id: string): Promise<string> {
     return this.userService.deleteUser(id);
