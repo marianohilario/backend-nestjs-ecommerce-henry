@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { User } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -25,7 +29,7 @@ export class UsersRepository {
       relations: { orders: true },
     });
 
-    if (!user){
+    if (!user) {
       throw new NotFoundException('ID de usuario no encontrado');
     }
     const { password, isAdmin, ...rest } = user;
@@ -44,11 +48,22 @@ export class UsersRepository {
       where: { id },
     });
 
-    if (!userExists || (userExists && userExists.id === id)) {
-      await this.userRepository.update(id, dataToUpdate);
-      return id;
+    if (!userExists) {
+      throw new NotFoundException('ID de usuario no encontrado');
     }
-    return 'El email ya se encuentra registrado para otro usuario';
+
+    if (dataToUpdate.email) {
+      const emailExists = await this.userRepository.findOne({
+        where: { email: dataToUpdate.email },
+      });
+      if (emailExists && emailExists.id !== id) {
+        throw new BadRequestException(
+          'El email ya se encuentra registrado para otro usuario',
+        );
+      }
+    }
+    await this.userRepository.update(id, dataToUpdate);
+    return id;
   }
 
   async deleteUser(id: string): Promise<string> {

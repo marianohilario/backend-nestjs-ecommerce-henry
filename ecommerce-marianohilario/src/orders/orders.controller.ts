@@ -40,17 +40,4 @@ export class OrdersController {
   getOrder(@Param('id', ParseUUIDPipe) id: string) {
     return this.ordersService.getOrder(id);
   }
-
-  @Patch(':id')
-  update(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() updateOrderDto: UpdateOrderDto,
-  ) {
-    return this.ordersService.update(+id, updateOrderDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id', ParseUUIDPipe) id: string) {
-    return this.ordersService.remove(+id);
-  }
 }

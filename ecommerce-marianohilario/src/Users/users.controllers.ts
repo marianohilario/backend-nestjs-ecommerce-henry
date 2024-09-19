@@ -20,6 +20,7 @@ import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../decorators/roles.decorator';
 import { Role } from '../auth/enum/roles.enum';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { UpdateUserDto } from './dtos/update-user.dto';
 
 @ApiTags('Users')
 @Controller('users')
@@ -54,7 +55,7 @@ export class UsersController {
   @UseGuards(AuthGuard)
   async updateUser(
     @Param('id', ParseUUIDPipe) id: string,
-    @Body() dataToUpdate: Partial<User>,
+    @Body() dataToUpdate: UpdateUserDto,
   ): Promise<string> {
     if (validateUserData(dataToUpdate)) {
       return await this.userService.updateUser(id, dataToUpdate);

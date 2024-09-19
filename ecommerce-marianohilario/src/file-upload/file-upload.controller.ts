@@ -13,7 +13,8 @@ import {
 import { FileUploadService } from './file-upload.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthGuard } from '../auth/guards/auth.guard';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { MultipartFileDto } from './file-upload.dto';
 
 @ApiTags('File Upload')
 @Controller('files')
@@ -22,6 +23,11 @@ export class FileUploadController {
 
   @Post('uploadImage/:id')
   @ApiBearerAuth()
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Upload product image',
+    type: MultipartFileDto,
+  })
   @UseGuards(AuthGuard)
   @UseInterceptors(FileInterceptor('file'))
   async uploadProductImage(
