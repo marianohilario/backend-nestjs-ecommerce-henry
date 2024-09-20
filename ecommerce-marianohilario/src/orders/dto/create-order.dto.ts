@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { ArrayMinSize, IsArray, IsNotEmpty, IsUUID } from 'class-validator';
-import { Product } from 'src/Products/product.entity';
+import { Product } from 'src/products/product.entity';
 
 export class CreateOrderDto {
   @IsNotEmpty()

@@ -11,7 +11,7 @@ import { Role } from '../enum/roles.enum';
 
 // Extiende la interfaz Request para incluir el userPayload
 interface RequestWithUserPayload extends Request {
-  user?: any; // Define el tipo correcto de userPayload si lo conoces
+  user?: any;
 }
 
 @Injectable()

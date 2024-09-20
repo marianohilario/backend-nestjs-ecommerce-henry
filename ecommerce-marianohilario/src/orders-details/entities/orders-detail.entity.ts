@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 
 import { Order } from '../../orders/entities/order.entity';
-import { Product } from '../../Products/product.entity';
+import { Product } from '../../products/product.entity';
 
 @Entity({ name: 'orders_detail' })
 export class OrdersDetail {

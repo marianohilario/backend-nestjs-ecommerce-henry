@@ -50,4 +50,12 @@ export class UpdateUserDto {
     example: 123456789,
   })
   phone?: number;
+
+  @IsOptional()
+  @ApiProperty({
+    description:
+      'Rol del usuario (Opcional). True o False indican si es admin o no',
+    example: 'true',
+  })
+  isAdmin?: boolean;
 }

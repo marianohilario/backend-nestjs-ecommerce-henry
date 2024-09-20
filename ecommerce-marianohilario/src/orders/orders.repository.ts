@@ -3,7 +3,7 @@ import { Repository } from 'typeorm';
 import { NotFoundException } from '@nestjs/common';
 
 import { Order } from './entities/order.entity';
-import { Product } from '../Products/product.entity';
+import { Product } from '../products/product.entity';
 import { User } from '../users/user.entity';
 import { OrdersDetail } from '../orders-details/entities/orders-detail.entity';
 
