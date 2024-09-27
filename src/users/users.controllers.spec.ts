@@ -104,7 +104,7 @@ describe('UsersController', () => {
       address: 'Calle falsa 123',
       phone: 123456789,
       password: 'secret123',
-      isAdmin: false
+      isAdmin: false,
     });
     expect(result).toBe('1');
   });
