@@ -68,7 +68,7 @@ describe('AuthService', () => {
     try {
       await authService.signUp(mockUser as CreateUsersDto);
     } catch (error) {
-      expect(error.message).toEqual('El email ya se encuentra registrado');
+      expect(error.message).toEqual('The email is already registered.');
     }
   });
 
@@ -78,7 +78,7 @@ describe('AuthService', () => {
     try {
       await authService.signIn(mockUser.email, 'INVALID PASSWORD');
     } catch (error) {
-      expect(error.message).toEqual('Email o password incorrecto.');
+      expect(error.message).toEqual('Incorrect email or password.');
     }
   });
 
@@ -86,7 +86,7 @@ describe('AuthService', () => {
     try {
       await authService.signIn(mockUser.email, mockUser.password);
     } catch (error) {
-      expect(error.message).toEqual('Email o password incorrecto.');
+      expect(error.message).toEqual('Incorrect email or password.');
     }
   });
 
@@ -105,6 +105,6 @@ describe('AuthService', () => {
 
     expect(response).toBeDefined();
     expect(response.token).toBeDefined();
-    expect(response.message).toEqual('Sesión iniciada con éxito');
+    expect(response.message).toEqual('Session started successfully');
   });
 });

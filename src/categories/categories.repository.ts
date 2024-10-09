@@ -3,6 +3,7 @@ import { Repository } from 'typeorm';
 
 import { Category } from './entities/category.entity';
 import * as data from '../utils/products.json';
+import { HttpException, HttpStatus } from '@nestjs/common';
 
 export class CategoriesRepository {
   constructor(
@@ -11,7 +12,7 @@ export class CategoriesRepository {
   ) {}
 
   async getCategories(): Promise<Category[]> {
-    return await this.categoriesRepository.find({ relations: ['products'] });
+    return await this.categoriesRepository.find();
   }
 
   async addCategories(): Promise<string> {
@@ -25,9 +26,15 @@ export class CategoriesRepository {
           await this.categoriesRepository.save({ name: element.category });
         }
       }
-      return 'Categorías cargadas';
+      return 'Categories seeded successfully';
     }
 
-    return 'No existen categorías para cargar';
+    throw new HttpException(
+      {
+        error: 'There are no categories to seed.',
+        description: 'First make sure you have a products.json file',
+      },
+      HttpStatus.CONFLICT,
+    ); 
   }
 }

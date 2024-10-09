@@ -1,4 +1,8 @@
-import { ApiProperty } from '@nestjs/swagger';
+import {
+  ApiHideProperty,
+  ApiProperty,
+  ApiPropertyOptional,
+} from '@nestjs/swagger';
 import {
   IsEmail,
   IsEmpty,
@@ -15,8 +19,8 @@ export class CreateUsersDto {
   @IsNotEmpty()
   @IsEmail()
   @ApiProperty({
-    description: 'Email del usuario',
-    example: 'example@mail.com',
+    description: "User's email",
+    example: 'test-example@mail.com',
   })
   email: string;
 
@@ -25,7 +29,7 @@ export class CreateUsersDto {
   @Length(3, 80)
   @ApiProperty({
     description:
-      'Nombre del usuario. Debe ser mayor a 3 caracteres y menor a 80',
+      "User's name. It must be greater than 3 characters and less than 80",
     example: 'Mariano',
   })
   name: string;
@@ -40,14 +44,14 @@ export class CreateUsersDto {
   })
   @ApiProperty({
     description:
-      'Contraseña del usuario. Debe ser mayor a 8 caracteres y menor a 15. Debe contener al menos una mayuscula, una minuscula, un numero y un caracter especial ("!@#$%^&*")',
+      'User password. Must be greater than 8 characters and less than 15. Must contain at least one uppercase letter, one lowercase letter, one number and one special character ("!@#$%^&*")',
     example: 'S3cretP4ssw0rd!',
   })
   password: string;
 
   @IsNotEmpty()
   @ApiProperty({
-    description: 'Confirma la contraseña',
+    description: 'Confirm password',
     example: 'S3cretP4ssw0rd!',
   })
   confirmPassword: string;
@@ -57,7 +61,7 @@ export class CreateUsersDto {
   @Length(3, 80)
   @ApiProperty({
     description:
-      'Dirección del usuario. Debe ser mayor a 3 caracteres y menor a 80',
+      "User's address. It must be greater than 3 characters and less than 80",
     example: 'Calle falsa 123',
   })
   address: string;
@@ -65,7 +69,7 @@ export class CreateUsersDto {
   @IsNotEmpty()
   @IsNumber()
   @ApiProperty({
-    description: 'Teléfono del usuario',
+    description: "User's phone number",
     example: 123456789,
   })
   phone: number;
@@ -74,9 +78,9 @@ export class CreateUsersDto {
   @IsString()
   @Length(3, 20)
   @IsOptional()
-  @ApiProperty({
+  @ApiPropertyOptional({
     description:
-      'Pais del usuario. Debe ser mayor a 3 caracteres y menor a 20. El mismo es opcional.',
+      "User's country. It must be greater than 3 characters and less than 20. It is optional.",
     example: 'Argentina',
   })
   country?: string | undefined;
@@ -85,17 +89,18 @@ export class CreateUsersDto {
   @IsString()
   @Length(3, 20)
   @IsOptional()
-  @ApiProperty({
+  @ApiPropertyOptional({
     description:
-      'Ciudad del usuario. Debe ser mayor a 3 caracteres y menor a 20. El mismo es opcional.',
+      "User's city. It must be greater than 3 characters and less than 20. It is optional.",
     example: 'Buenos Aires',
   })
   city?: string | undefined;
 
   @IsEmpty()
-  @ApiProperty({
-    description: 'Rol del usuario. Por defecto es false',
-    example: false,
-  })
+  @ApiHideProperty()
+  // @ApiProperty({
+  //   description: "User's rol. Default is false",
+  //   example: false,
+  // })
   isAdmin?: boolean;
 }

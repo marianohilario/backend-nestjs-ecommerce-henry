@@ -6,18 +6,18 @@ export class CreateOrderDto {
   @IsNotEmpty()
   @IsUUID()
   @ApiProperty({
-    description: 'ID del usuario',
-    example: '701ded1c-951c-451b-8f6f-f2f05079c7a4',
+    description: 'User ID',
+    example: '01c0557b-e2b1-4a89-9aa9-92296c045088',
   })
   user_id: string;
 
   @IsArray()
   @ArrayMinSize(1)
   @ApiProperty({
-    description: 'Listado de ID de productos comprados',
+    description: 'List of products',
     example: `[
-     {"id":"ceaa691e-4c5e-4e20-8b5e-494719fe3c7c"},
-     {"id":"6bdb7c0d-523e-48e3-a42a-2070966e1224"}
+     {"id":"ac9af5f7-2c54-45ac-b7ec-4b7d3400ea61"},
+     {"id":"080e87ed-2299-4590-8cc1-11c2c7883c23"}
     ]`,
   })
   products: Partial<Product[]>;

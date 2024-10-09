@@ -8,9 +8,9 @@ export class UsersService {
   async getUsers(
     page: number,
     limit: number,
-  ): Promise<Omit<User, 'password'>[]> {
+  ): Promise<Omit<User, 'password' | 'isAdmin'>[]> {
     return (await this.usersRepository.getUsers(page, limit)).map(
-      ({ password, ...rest }) => rest,
+      ({ password, isAdmin, ...rest }) => rest,
     );
   }
   async getUserById(id: string): Promise<Partial<User>> {

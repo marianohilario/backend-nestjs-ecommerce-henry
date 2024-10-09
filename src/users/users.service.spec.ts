@@ -18,7 +18,7 @@ describe('UsersService', () => {
   beforeEach(async () => {
     mockUsersRepository = {
       getUsers: () =>
-        Promise.resolve([{ ...mockUser, isAdmin: false } as User]),
+        Promise.resolve([{ ...mockUser } as User]),
       getUserById: (id: string) => Promise.resolve({ ...mockUser, orders: [] }),
       updateUser: (id: string, dataToUpdate: User) => Promise.resolve(id),
       deleteUser: (id: string) => Promise.resolve(id),
@@ -49,7 +49,6 @@ describe('UsersService', () => {
         email: '4sD9H@example.com',
         address: 'Calle falsa 123',
         phone: 123456789,
-        isAdmin: false,
       } as User,
     ]);
   });

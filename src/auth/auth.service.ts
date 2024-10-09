@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CreateUsersDto } from 'src/users/dtos/create-user.dto';
 import { UsersRepository } from '../users/users.repository';
 import * as bcrypt from 'bcrypt';
@@ -21,7 +25,7 @@ export class AuthService {
     }
 
     if (!user || !isPasswordValid) {
-      throw new BadRequestException('Email o password incorrecto.');
+      throw new UnauthorizedException('Incorrect email or password.');
     }
 
     const userPayload = {
@@ -34,23 +38,23 @@ export class AuthService {
 
     return {
       token,
-      message: 'Sesión iniciada con éxito',
+      message: 'Session started successfully',
     };
   }
 
   async signUp(userData: CreateUsersDto) {
     const user = await this.usersRepository.findByEmail(userData.email);
     if (user) {
-      throw new BadRequestException('El email ya se encuentra registrado');
+      throw new BadRequestException('The email is already registered.');
     }
 
     if (userData.password !== userData.confirmPassword) {
-      throw new BadRequestException('Las contraseñas no coinciden');
+      throw new BadRequestException('Passwords do not match.');
     }
 
     const hashedPassword = await bcrypt.hash(userData.password, 10);
     if (!hashedPassword) {
-      throw new BadRequestException('No se pudo encriptar la contraseña');
+      throw new BadRequestException('Password could not be hashed.');
     }
 
     return this.usersRepository.createUser({

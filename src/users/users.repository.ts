@@ -30,7 +30,7 @@ export class UsersRepository {
     });
 
     if (!user) {
-      throw new NotFoundException('ID de usuario no encontrado');
+      throw new NotFoundException('User ID not found');
     }
     const { password, isAdmin, ...rest } = user;
 
@@ -49,7 +49,7 @@ export class UsersRepository {
     });
 
     if (!userExists) {
-      throw new NotFoundException('ID de usuario no encontrado');
+      throw new NotFoundException('User ID not found');
     }
 
     if (dataToUpdate.email) {
@@ -58,17 +58,21 @@ export class UsersRepository {
       });
       if (emailExists && emailExists.id !== id) {
         throw new BadRequestException(
-          'El email ya se encuentra registrado para otro usuario',
+          'The email is already registered for another user.',
         );
       }
     }
     await this.userRepository.update(id, dataToUpdate);
-    return id;
+    return `User with ID: "${id}" has been updated successfully.`;
   }
 
   async deleteUser(id: string): Promise<string> {
+    const userExists = await this.userRepository.findOneBy({ id });
+    if (!userExists) {
+      throw new NotFoundException('User ID not found');
+    }
     await this.userRepository.delete(id);
-    return id;
+    return `User with ID: "${id}" has been deleted successfully.`;
   }
 
   async findByEmail(email: string): Promise<User | undefined> {

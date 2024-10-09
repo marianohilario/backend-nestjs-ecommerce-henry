@@ -27,7 +27,7 @@ describe('AppController (e2e)', () => {
     return request(app.getHttpServer())
       .get('/')
       .expect(200)
-      .expect('Hello World!');
+      .expect('Hello! Visit http://localhost:3000/api for more information');
   });
 
   it('/users (GET) Returns an array of users with an OK status code', async () => {
@@ -40,7 +40,7 @@ describe('AppController (e2e)', () => {
 
   it('/users/:id (GET) Returns a single user with an OK status code', async () => {
     const req = await request(app.getHttpServer()).get(
-      '/users/701ded1c-951c-451b-8f6f-f2f05079c7a4',
+      '/users/c1982490-e6a6-464f-8cb8-4c1d42ed6031',
     );
     expect(req.status).toBe(200);
     expect(req.body).toBeInstanceOf(Object);
@@ -51,7 +51,7 @@ describe('AppController (e2e)', () => {
       '/users/701ded1c-951c-451b-8f6f-f2f05079c7a5',
     );
     expect(req.status).toBe(404);
-    expect(req.body.message).toBe('ID de usuario no encontrado');
+    expect(req.body.message).toBe('User ID not found');
   });
 
   it('/users/:id (GET) Returns an error with a BAD REQUEST status code when user id is not a UUID', async () => {
@@ -63,7 +63,7 @@ describe('AppController (e2e)', () => {
 
   it('/auth/signup (POST) Returns an created user id with a CREATED status code', async () => {
     const req = await request(app.getHttpServer()).post('/auth/signup').send({
-      email: 'marianoTest@gmail.com',
+      email: 'mehTest@gmail.com',
       password: 'Aasd123@',
       confirmPassword: 'Aasd123@',
       name: 'Mariano Test',
@@ -78,13 +78,13 @@ describe('AppController (e2e)', () => {
 
   it('/users (PUT) Returns an updated user id with an OK status code', async () => {
     const req = await request(app.getHttpServer())
-      .put('/users/701ded1c-951c-451b-8f6f-f2f05079c7a4')
+      .put('/users/c1982490-e6a6-464f-8cb8-4c1d42ed6031')
       .send({
         email: 'marianohilario@test.com',
       });
     expect(req.status).toBe(200);
     expect((await req.request).text).toBe(
-      '701ded1c-951c-451b-8f6f-f2f05079c7a4',
+      'User with ID: "c1982490-e6a6-464f-8cb8-4c1d42ed6031" has been updated successfully.',
     );
   });
 
@@ -106,7 +106,7 @@ describe('AppController (e2e)', () => {
 
   it('/products/:id (GET) Returns a single product with an OK status code', async () => {
     const req = await request(app.getHttpServer()).get(
-      '/products/b4c975f7-b12b-4594-b011-c5b977674083',
+      '/products/de7cf066-1adc-4493-a103-89bbbce3b5e1',
     );
     expect(req.status).toBe(200);
     expect(req.body).toBeInstanceOf(Object);

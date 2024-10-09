@@ -25,7 +25,7 @@ export class RolesGuard implements CanActivate {
     const valid = user && user.roles && hasRole();
     if (!valid) {
       throw new ForbiddenException(
-        'No tiene permisos para realizar esta accion',
+        'You do not have permissions to perform this action. Only admins can perform this action.',
       );
     }
     return valid;

@@ -45,6 +45,7 @@ export function validateProductData(
     imgUrl: 'string',
     price: 'number',
     stock: 'number',
+    category: 'string',
   };
 
   for (const [field, type] of Object.entries(fieldTypes)) {

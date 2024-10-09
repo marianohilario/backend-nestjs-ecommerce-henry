@@ -7,10 +7,9 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { Observable } from 'rxjs';
-import { Role } from '../enum/roles.enum';
 
 // Extiende la interfaz Request para incluir el userPayload
-interface RequestWithUserPayload extends Request {
+export interface RequestWithUserPayload extends Request {
   user?: any;
 }
 
@@ -24,7 +23,7 @@ export class AuthGuard implements CanActivate {
 
     const token = request.headers.authorization?.split(' ')[1];
     if (!token) {
-      throw new UnauthorizedException('No hay token');
+      throw new UnauthorizedException('Missing token');
     }
 
     try {
@@ -35,7 +34,7 @@ export class AuthGuard implements CanActivate {
       request.user = payload;
       return true;
     } catch (error) {
-      throw new UnauthorizedException('Token no valido');
+      throw new UnauthorizedException('Missing or not authorized token');
     }
   }
 }

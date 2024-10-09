@@ -15,8 +15,8 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
+    it('should return "Hello! Visit http://localhost:3000/api for more information"', () => {
+      expect(appController.getHello()).toBe('Hello! Visit http://localhost:3000/api for more information');
     });
   });
 });
