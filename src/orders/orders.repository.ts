@@ -28,47 +28,57 @@ export class OrdersRepository {
       where: { id },
       relations: { orderDetail: { products: true } },
     });
-    if (!order) throw new NotFoundException('ID de orden no encontrado');
+    if (!order) throw new NotFoundException('Order id does not exists');
     return order;
   }
   async addOrder(createOrderDto) {
-    const { user_id, products } = createOrderDto;
+      const { user_id, products } = createOrderDto;
     let total = 0;
+
     const user = await this.userRepository.findOne({ where: { id: user_id } });
-    if (!user) throw new NotFoundException('ID de usuario no encontrado');
-
-    const newOrder = new Order();
-    newOrder.user = user;
-
-    const order = await this.orderRepository.save(newOrder);
+    if (!user) throw new NotFoundException('User id does not exist');
 
     const productsArray = await Promise.all(
       products.map(async (element) => {
         const product = await this.productRepository.findOneBy({
           id: element.id,
         });
-        if (!product)
-          throw new NotFoundException('El ID de producto no existe');
+        if (!product) throw new NotFoundException('Product id does not exist');
+
+        if (product.stock < 1) {
+          throw new NotFoundException(
+            `Product with id ${product.id} is out of stock`,
+          );
+        }
 
         total += Number(product.price);
-
-        await this.productRepository.update(
-          { id: element.id },
-          { stock: product.stock - 1 },
-        );
-
+        
         return product;
       }),
     );
 
-    const newOrderDetail = new OrdersDetail();
+    const newOrder = new Order();
+    newOrder.user = user;
+    const order = await this.orderRepository.save(newOrder);
 
+    await Promise.all(
+      productsArray.map(async (product) => {
+        await this.productRepository.update(
+          { id: product.id },
+          { stock: product.stock - 1 },
+        );
+      }),
+    );
+
+    // Crear el detalle de la orden
+    const newOrderDetail = new OrdersDetail();
     newOrderDetail.price = Number(Number(total).toFixed(2));
     newOrderDetail.products = productsArray;
     newOrderDetail.order = order;
 
     await this.ordersDetailRepository.save(newOrderDetail);
 
+    // Retornar la orden completa
     return this.orderRepository.find({
       where: { id: order.id },
       relations: { orderDetail: true },

@@ -34,7 +34,7 @@ export class FileUploadController {
     required: true,
     type: String,
     description: 'Product ID',
-    example: '0bbcf9e3-822b-4a3f-972d-01b3da6076e7',
+    example: 'a2a417bb-4bbf-4195-9a8e-e694e56e5975',
   })
   @ApiResponse({
     status: 201,

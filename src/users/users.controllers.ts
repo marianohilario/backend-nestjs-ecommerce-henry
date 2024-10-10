@@ -93,7 +93,7 @@ export class UsersController {
     name: 'id',
     type: 'string',
     description: 'User ID',
-    example: 'c1982490-e6a6-464f-8cb8-4c1d42ed6031',
+    example: '3b0cc754-9480-4f53-8b65-6032caf1de7a',
   })
   @ApiResponse({
     status: 200,
@@ -139,7 +139,7 @@ export class UsersController {
     name: 'id',
     type: 'string',
     description: 'User ID',
-    example: '01c0557b-e2b1-4a89-9aa9-92296c045088',
+    example: '3b0cc754-9480-4f53-8b65-6032caf1de7a',
   })
   @ApiBody({
     description: 'Must contain at least one of the following fields:',

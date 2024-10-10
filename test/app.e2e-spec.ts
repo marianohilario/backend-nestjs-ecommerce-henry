@@ -33,7 +33,6 @@ describe('AppController (e2e)', () => {
   it('/users (GET) Returns an array of users with an OK status code', async () => {
     const req = await request(app.getHttpServer()).get('/users');
 
-    console.log('req: ', req);
     expect(req.status).toBe(200);
     expect(req.body).toBeInstanceOf(Array);
   });

@@ -45,9 +45,9 @@ export class OrdersController {
     description:
       'Forbidden. When you try to create an order for a user with a different ID than the one who logged in.',
   })
+  @ApiResponse({ status: 404, description: 'Not Found' })
   @UseGuards(AuthGuard, UserIdGuard)
   addOrder(@Body() createOrderDto: CreateOrderDto, @Req() req: Request | any) {
-    console.log('Request:', req.user.id);
     return this.ordersService.addOrder(createOrderDto);
   }
 
@@ -81,7 +81,7 @@ export class OrdersController {
     name: 'id',
     type: String,
     description: 'Order ID',
-    example: '9271adcf-2496-4939-8909-9599fa1822be',
+    example: '08905d07-b73b-44da-b089-c122e2b97a4d',
   })
   @ApiResponse({
     status: 200,

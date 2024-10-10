@@ -22,6 +22,7 @@ import { Role } from '../auth/enum/roles.enum';
 import { UpdateProductDto } from './dtos/update-product.dto';
 import {
   ApiBearerAuth,
+  ApiBody,
   ApiParam,
   ApiQuery,
   ApiResponse,
@@ -152,14 +153,14 @@ export class ProductsController {
     name: 'id',
     type: 'string',
     description: 'Product ID',
-    example: 'ac9af5f7-2c54-45ac-b7ec-4b7d3400ea61',
+    example: '39667e43-4ca2-4863-ba1b-eb740e5277d2',
   })
   @ApiResponse({
     status: 200,
     description: 'Product retrieved successfully',
     schema: {
       example: {
-        id: 'ac9af5f7-2c54-45ac-b7ec-4b7d3400ea61',
+        id: 'e9867e2f-2905-48f3-ba29-aa5cfd1128f8',
         name: 'Iphone 15',
         description: 'The best smartphone in the world',
         price: '199.99',
@@ -233,14 +234,18 @@ export class ProductsController {
     name: 'id',
     type: 'string',
     description: 'Product ID',
-    example: 'ac9af5f7-2c54-45ac-b7ec-4b7d3400ea61',
+    example: 'e9867e2f-2905-48f3-ba29-aa5cfd1128f8',
+  })
+  @ApiBody({
+    description: 'Must contain at least one of the following fields:',
+    type: UpdateProductDto,
   })
   @ApiResponse({
     status: 200,
     description: 'Returns the product updated.',
     schema: {
       example: {
-        id: 'ac9af5f7-2c54-45ac-b7ec-4b7d3400ea61',
+        id: 'e9867e2f-2905-48f3-ba29-aa5cfd1128f8',
         name: 'Iphone 15',
         description: 'The best smartphone in the world',
         price: '199.99',

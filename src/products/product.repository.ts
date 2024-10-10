@@ -127,8 +127,6 @@ export class ProductsRepository {
       .leftJoinAndSelect('product.category', 'category')
       .getMany();
 
-    console.log('productExist', products);
-
     if (!products.length) {
       throw new NotFoundException('Product name does not exists.');
     }
